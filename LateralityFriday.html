@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>From observed laterality to latent hemispheric differences</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Øystein Sørensen" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="lcbc-uio.css" type="text/css" />
+    <link rel="stylesheet" href="lcbc-uio-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: middle, right, title-slide
+
+# From observed laterality to latent hemispheric differences
+## Revisiting the inference problem
+### Øystein Sørensen
+### Laterality Friday; May 30, 2021
+
+---
+
+
+layout: true
+    
+&lt;div class="my-sidebar"&gt;&lt;/div&gt; 
+
+---
+class: middle, center
+
+
+
+
+&lt;img src="figures/paper.png" height=600&gt;
+
+---
+
+# Background
+
+- How to determine which hemisphere is dominant for a given task, based on indirect measurements?
+
+- Example 
+
+  - Measurement: Right/left ear advantage in dichotic listening
+  
+  - Inference: Left/right dominance for language processing
+  
+--
+
+- Problem: Most people are left dominant.
+
+- Satz (1977) showed, based on then available data from sodium-amytal tests:
+
+  - Seeing that a person has a left-ear advantage increases the probability that the person is right dominant from 0.05 to 0.10.
+  
+  - Seeing a right-ear advantage increases the probability of left dominance from 0.95 to 0.97.
+
+
+&lt;small&gt;
+Satz, P. (1977). Laterality Tests: An Inferential Problem. Cortex, 13(2), 208–212. https://doi.org/10.1016/S0010-9452(77)80010-5
+&lt;/small&gt;
+
+---
+
+# Background
+
+- Question: Do Satz' conclusions still hold, our can we do something better?
+
+- Some opportunities:
+
+  - Dichotic listening experiments given a continuous index, e.g. between -100 and 100, rather than simply left/right.
+
+  - Can repeated measurements of the same subject give more reliable conclusions?
+
+  - New data are available, so the probabilities of left and right dominance in the population should be updated.
+  
+  - Handedness is an additional source of information.
+
+
+---
+class: inverse, middle, center
+
+# A model for inferring hemispheric dominance
+
+---
+
+# Component 1: Prior probability
+
+- Let `\(p(\alpha)\)` denote the probability that a given person in the population has hemispheric dominance `\(\alpha\)`.
+
+- In Carey and Johnstone (2014), we find, for right-handers:
+
+  - Probability of left dominance for language processing is `\(p(\alpha = \text{left}) = 0.87\)`
+  
+  - Accordingly, `\(p(\alpha = \text{non-left}) = 0.13\)`
+  
+- Our goal is to infer the value of `\(\alpha\)` based on something which is more easy to measure.
+
+&lt;small&gt;
+Carey, D. P., &amp; Johnstone, L. T. (2014). Quantifying cerebral asymmetries for language in dextrals and adextrals with random-effects meta analysis. Frontiers in Psychology, 5. https://doi.org/10.3389/fpsyg.2014.01128
+&lt;/small&gt;
+
+---
+
+# Component 2: Conditional probability
+
+.pull-left[
+- Let `\(p(x|\alpha)\)` denote the conditional probability of observing a dichotic listening score `\(x\)` for a person with hemispheric dominance `\(\alpha\)`.
+
+- In van der Haegen et al. (2013) we find:
+
+  - With left dominance, mean of `\(x\)` is 12, with standard deviation 17.
+  
+  - With right dominance, mean of `\(x\)` is -24.
+
+- Classical test theory: Assume measurements `\(x\)` are normally distributed around the mean for each group.
+
+]
+.pull-right[
+
+
+&lt;img src="figures/normal_dist.png"&gt;
+]
+
+&lt;small&gt;
+Van der Haegen, L., Westerhausen, R., Hugdahl, K., &amp; Brysbaert, M. (2013). Speech dominance is a better predictor of functional brain asymmetry than handedness: A combined fMRI word generation and behavioral dichotic listening study. Neuropsychologia, 51(1), 91–97. https://doi.org/10.1016/j.neuropsychologia.2012.11.002
+&lt;/small&gt;
+
+---
+
+# Component 3: Posterior probability
+
+- Bayes' theorem gives us a way to compute the probability of hemispheric dominance `\(\alpha\)` given a prior distribution `\(p(\alpha)\)` and a condition probability `\(p(x|\alpha)\)`.
+
+`$$p(\alpha | x) = \frac{p(x | \alpha) p(\alpha)}{p(x | \alpha = \text{left}) p(\alpha = \text{left}) + p(x | \alpha = \text{non-left}) p(\alpha = \text{non-left})}$$`
+
+- To summarize:
+
+  - `\(p(\alpha)\)` is the proportion of left and non-left dominant individuals in the population.
+  
+  - `\(p(x|\alpha)\)` is the probability of observing a measurement `\(x\)` for an individual with dominance `\(\alpha\)`.
+  
+  - `\(p(\alpha |x )\)` is the probability of dominance `\(\alpha\)` for an individual with observation `\(x\)`.
+  
+---
+class: inverse, middle, center
+
+# Some examples
+
+
+---
+
+# Probability of left or non-left dominance
+
+- A single measurement `\(x\)` between -100 and 100, where negative numbers imply left-ear advantage and positive numbers imply right-ear advantage. Right-handers only.
+
+  - Already at a measure of -10, the probability of left dominance exceeds 80%.
+  
+  - Probability of right dominance exceeds 80% at -33 or below.
+
+&lt;center&gt;
+&lt;img src="figures/fig1.jpeg", height=300&gt;
+&lt;/center&gt;
+
+---
+
+# How certain are we?
+
+- 2,855 dichotic listening measurements of right-handers, obtained with the iDichotic App. 
+
+- Rule: If probability of left/right is at least 80%, then classify. Otherwise leave unclassified.
+
+  - 2517 classified as left dominant, 105 as right dominant, and 233 unclassified.
+  
+
+&lt;center&gt;
+&lt;img src="figures/fig2.jpeg" height=300&gt;
+&lt;/center&gt;
+
+---
+class: inverse, middle, center
+
+# Multiple measurements
+
+---
+
+# Multiple measurements
+
+- We expect two measurements of the same individual to be more correlated than two measurements of different individuals.
+
+- Define 
+
+  - `\(\sigma_{b}^{2}\)`, variance between individuals
+  
+  - `\(\sigma_{w}^{2}\)`, variance within individuals
+  
+
+- This intraclass correlation can be estimated from the data at hand
+
+`$$r = \frac{\sigma_{b}^{2}}{\sigma_{w}^{2} + \sigma_{b}^{2}}$$`
+
+  
+- With an extension of the formula for posterior probability of hemispheric dominance, we can use this information.
+
+---
+
+# Multiple measurements
+
+.pull-left[
+- First measurement shown along the horizontal axis.
+
+- Second measurement indicated by color code.
+
+- Dashed line shows the reference probability for a single measurement.
+
+- Essentially, two measurements pointing in the same direction makes us more certain.
+  
+]
+.pull-right[
+&lt;img src="figures/fig3.jpeg"&gt;
+]
+
+---
+
+# Multiple measurements
+
+- Data from Karlsson et al. (2019): 871 participants, each with three perceptual laterality measures.
+
+- The table shows the effect of using only the first measurement ($n=1$), the first and second ($n=2$), and all ($n=3$).
+
+&lt;center&gt;
+&lt;img src="figures/tab3.png", height=200&gt;
+&lt;/center&gt;
+
+&lt;small&gt;
+Karlsson, E. M., Johnstone, L. T., &amp; Carey, D. P. (2019). The depth and breadth of multiple perceptual asymmetries in right handers and non-right handers. Laterality, 24(6), 707–739. https://doi.org/10.1080/1357650X.2019.1652308
+&lt;/small&gt;
+
+---
+
+# Multiple measurements
+
+- Data from Bless et al. (2013), with four measurements per participant.
+
+- Each line represents a person, and shows how the classification is adjusted when more timepoints are added.
+
+&lt;center&gt;
+&lt;img src="figures/fig4.jpeg" height=300&gt;
+&lt;/center&gt;
+
+&lt;small&gt;
+Bless, J. J., Westerhausen, R., Arciuli, J., Kompus, K., Gudmundsen, M., &amp; Hugdahl, K. (2013). “Right on all Occasions?” – On the Feasibility of Laterality Research Using a Smartphone Dichotic Listening Application. Frontiers in Psychology, 4. https://doi.org/10.3389/fpsyg.2013.00042
+&lt;/small&gt;
+
+---
+class: inverse, middle, center
+
+# Simulation experiments
+
+---
+# Simulation experiments
+
+- We simulated data with a known truth, and investigated how well we were able to classify the individuals.
+
+&lt;center&gt;
+&lt;img src="figures/fig5.jpeg" height=450&gt;
+&lt;/center&gt;
+
+
+---
+# Classification threshold
+
+- We have used an 80% threshold for classification, meaning that if the probability of left hemispheric dominance is between 20% and 80%, we say "Undecided". 
+
+- Note that this threshold applies to the last classified individual. The average probability among the classified is typically around 95%.
+
+- The choice of 80% is essentially arbitrary, and depends on the trade-off between:
+
+  - How bad is it to make a mistake?
+  
+  - How bad is it to leave someone unclassified?
+  
+- Some additional simulation results illustrate this.
+
+
+---
+# Classification threshold
+
+&lt;center&gt;
+&lt;img src="figures/fig6.jpeg" height=450&gt;
+&lt;/center&gt;
+
+
+---
+class: inverse, middle, center
+
+# Some comments
+
+
+---
+
+# Parameters
+
+- The model depends on independent data estimating:
+
+  1. The prevalence of a given hemispheric dominance `\(\alpha\)` in the population: `\(p(\alpha)\)`.
+  
+  2. The mean and standard deviation of measurement `\(x\)` for people in each group defined by `\(\alpha\)`: `\(p(x|\alpha)\)`.
+  
+- Given this, the machinery works, and produces the probability of hemispheric dominance given data: `\(p(\alpha|x)\)`.
+
+- Extensions to multiple classes, e.g., left dominant, bilateral, right dominant, is in principle straightforward, but requires parameter estimates. We show this in Appendix 2.
+
+- Using multiple measurement paradigms is also possible, and we show this in Appendix 3. Again, the problem is points 1 and 2 above.
+
+---
+
+# App
+
+https://osorensen.shinyapps.io/BayesianLateralityApp/
+
+&lt;center&gt;
+&lt;img src="figures/app.png" height=450&gt;
+&lt;/center&gt;
+  
+---
+
+# R Package
+
+
+```r
+install.packages("BayesianLaterality")
+```
+
+
+```r
+library("BayesianLaterality")
+```
+
+---
+# R Package
+
+&lt;small&gt;
+
+
+```r
+example_data1
+```
+
+```
+## # A tibble: 3 x 2
+##   listening handedness
+##       &lt;dbl&gt; &lt;chr&gt;     
+## 1        20 right     
+## 2        23 right     
+## 3        14 right
+```
+
+```r
+predict_dominance(example_data1)
+```
+
+```
+## No ID column in data, assuming one subject per row.
+```
+
+```
+## # A tibble: 9 x 4
+##   ID    handedness dominance probability
+##   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+## 1 1     right      left          0.994  
+## 2 1     right      right         0.00583
+## 3 1     right      none          0      
+## 4 2     right      left          0.996  
+## 5 2     right      right         0.00402
+## 6 2     right      none          0      
+## 7 3     right      left          0.988  
+## 8 3     right      right         0.0122 
+## 9 3     right      none          0
+```
+
+&lt;/small&gt;
+
+---
+class: inverse, middle, center
+
+# Thank you!
+
+Questions/comments?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
