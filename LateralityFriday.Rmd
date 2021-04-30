@@ -2,7 +2,7 @@
 title: "From observed laterality to latent hemispheric differences"
 subtitle: "Revisiting the inference problem"
 author: "Øystein Sørensen"
-date: "Laterality Friday; May 30, 2021"
+date: "Laterality Friday; April 30, 2021"
 output:
   xaringan::moon_reader:
     css: [lcbc-uio.css, lcbc-uio-fonts.css, default]
@@ -45,13 +45,15 @@ library(tidyverse)
   
   - Inference: Left/right dominance for language processing
   
---
+---
+
+# Background
 
 - Problem: Most people are left dominant.
 
 - Satz (1977) showed, based on then available data from sodium-amytal tests:
 
-  - Seeing that a person has a left-ear advantage increases the probability that the person is right dominant from 0.05 to 0.10.
+  - Seeing that a person has a left-ear advantage increases the probability that the person is right dominant for language processing from 0.05 to 0.10.
   
   - Seeing a right-ear advantage increases the probability of left dominance from 0.95 to 0.97.
 
@@ -64,11 +66,15 @@ Satz, P. (1977). Laterality Tests: An Inferential Problem. Cortex, 13(2), 208–
 
 # Background
 
-- Question: Do Satz' conclusions still hold, our can we do something better?
+- Question:
+
+  - Do Satz' conclusions still hold, our can we do something better?
+  
+--
 
 - Some opportunities:
 
-  - Dichotic listening experiments given a continuous index, e.g. between -100 and 100, rather than simply left/right.
+  - Dichotic listening experiments giving a continuous index, e.g. between -100 and 100, rather than simply left/right.
 
   - Can repeated measurements of the same subject give more reliable conclusions?
 
@@ -88,6 +94,10 @@ class: inverse, middle, center
 
 - Let $p(\alpha)$ denote the probability that a given person in the population has hemispheric dominance $\alpha$.
 
+  - For example, $\alpha$ takes the value 'left' or 'non-left'.
+  
+--
+
 - In Carey and Johnstone (2014), we find, for right-handers:
 
   - Probability of left dominance for language processing is $p(\alpha = \text{left}) = 0.87$
@@ -105,7 +115,7 @@ Carey, D. P., & Johnstone, L. T. (2014). Quantifying cerebral asymmetries for la
 # Component 2: Conditional probability
 
 .pull-left[
-- Let $p(x|\alpha)$ denote the conditional probability of observing a dichotic listening score $x$ for a person with hemispheric dominance $\alpha$.
+- Let $p(x|\alpha)$ denote the conditional probability of observing a dichotic listening score $x$ between -100 and 100 for a person with hemispheric dominance $\alpha$.
 
 - In van der Haegen et al. (2013) we find:
 
@@ -113,9 +123,12 @@ Carey, D. P., & Johnstone, L. T. (2014). Quantifying cerebral asymmetries for la
   
   - With right dominance, mean of $x$ is -24.
 
-- Classical test theory: Assume measurements $x$ are normally distributed around the mean for each group.
+- Classical test theory:
+
+  - Assume measurements $x$ are normally distributed around the mean for each group.
 
 ]
+--
 .pull-right[
 ```{r, include=FALSE, eval=FALSE}
 crossing(
@@ -126,8 +139,11 @@ crossing(
     mu = if_else(dominance == "Left", 12, -24),
     pdf = dnorm(x, mean = mu, sd = 17)
   ) %>% 
-  ggplot(aes(x = x, y = pdf, group = dominance, color = dominance)) + 
+  ggplot(aes(x = x, y = pdf, ymax = pdf, ymin = 0, 
+             group = dominance, color = dominance, 
+             fill = dominance)) + 
   geom_line() +
+  geom_ribbon(alpha = .3) +
   theme_bw() +
   theme(
     panel.grid = element_blank(),
@@ -135,13 +151,16 @@ crossing(
     axis.line = element_line(),
     legend.position = c(.82, .8),
     legend.text = element_text(size = 8),
-    legend.title = element_text(size = 9)
+    legend.title = element_text(size = 9),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
   ) +
   scale_y_continuous(labels = scales::percent_format()) +
   xlab("Dichotic listening score") +
   ylab("Probaility") + 
-  labs(color = "Dominance")  +
-  ggthemes::scale_color_colorblind()
+  labs(color = "Dominance", fill = "Dominance")  +
+  ggthemes::scale_color_colorblind() +
+  ggthemes::scale_fill_colorblind()
 
 ggsave("figures/normal_dist.png", width = 8, height = 6, units = "cm")
 ```
@@ -160,6 +179,11 @@ Van der Haegen, L., Westerhausen, R., Hugdahl, K., & Brysbaert, M. (2013). Speec
 - Bayes' theorem gives us a way to compute the probability of hemispheric dominance $\alpha$ given a prior distribution $p(\alpha)$ and a condition probability $p(x|\alpha)$.
 
 $$p(\alpha | x) = \frac{p(x | \alpha) p(\alpha)}{p(x | \alpha = \text{left}) p(\alpha = \text{left}) + p(x | \alpha = \text{non-left}) p(\alpha = \text{non-left})}$$
+
+
+
+
+--
 
 - To summarize:
 
@@ -253,10 +277,10 @@ $$r = \frac{\sigma_{b}^{2}}{\sigma_{w}^{2} + \sigma_{b}^{2}}$$
 
 - Data from Karlsson et al. (2019): 871 participants, each with three perceptual laterality measures.
 
-- The table shows the effect of using only the first measurement ($n=1$), the first and second ($n=2$), and all ($n=3$).
+- The table shows the effect of using only the first measurement (n=1), the first and second (n=2), and all (n=3).
 
 <center>
-<img src="figures/tab3.png", height=200>
+<img src="figures/tab3.png", height=150>
 </center>
 
 <small>
@@ -340,6 +364,13 @@ class: inverse, middle, center
 
 - Using multiple measurement paradigms is also possible, and we show this in Appendix 3. Again, the problem is points 1 and 2 above.
 
+
+---
+
+# Validation
+
+- It would be very useful to validate the predictions on an independent dataset with known ground truth. Unfortunately, such data do not seem easily available.
+
 ---
 
 # App
@@ -368,7 +399,7 @@ library("BayesianLaterality")
 
 <small>
 
-```{r}
+```{r, message=FALSE}
 example_data1
 predict_dominance(example_data1)
 ```
